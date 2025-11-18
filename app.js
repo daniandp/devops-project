@@ -5,10 +5,10 @@ const app = express();
 
 // view engine setup
 app.set("view engine", "pug");
-app.set("views", path.join(__dirname, "..", "views"));
+app.set("views", path.join(__dirname, "views"));
 
 // static files
-app.use(express.static(path.join(__dirname, "..", "public")));
+app.use(express.static(path.join(__dirname, "public")));
 
 // for handling form submissions
 app.use(express.urlencoded({ extended: true }));

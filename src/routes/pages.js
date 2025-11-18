@@ -8,18 +8,18 @@ router.get("/", (req, res) => {
 
 // login route
 router.get("/login", (req, res) => {
-  res.redirect("login", { title: "Application Store - Login page" });
+  res.render("login", { title: "Application Store - Login page" });
 });
 
 // register route
 router.get("/register", (req, res) => {
-  res.redirect("register", { title: "Application Store - Register page" });
+  res.render("register", { title: "Application Store - Register page" });
 });
 
 // dashboard route
 router.get("/dashboard", (req, res) => {
   const appliances = ["Fridge", "Washer", "Dryer"];
-  res.redirect("dashboard", {
+  res.render("dashboard", {
     title: "Application Store - User Dashboard",
     appliances,
   });
@@ -28,7 +28,7 @@ router.get("/dashboard", (req, res) => {
 // profile route
 router.get("/profile", (req, res) => {
   const user = { username: "Alice", email: "alice@test.com" };
-  res.redirect("profile", {
+  res.render("profile", {
     title: "Application Store - User profile",
     user,
   });
