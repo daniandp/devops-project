@@ -10,3 +10,8 @@ Register,
 Login,
 User Profile,
 User Dashboard
+
+<!-- Follow these steps to run project -->
+
+1. npm install (install dependencies)
+2. node app.js (start server)
