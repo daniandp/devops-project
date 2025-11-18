@@ -6,7 +6,7 @@ Brief Description of Project: Our project will be a login screen, so you can log
 This application uses NodeJS, ExpressJS, MongoDB, Pug templates. This project uses Azure VM for automation deployment via GitHub.
 
 Features:
-Register
-Login
-User Profile
+Register,
+Login,
+User Profile,
 User Dashboard

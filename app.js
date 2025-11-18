@@ -14,7 +14,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 
 // use routes
-const pagesRouter = require("./src/routes/pages");
+const pagesRouter = require("./routes/pages");
 app.use("/", pagesRouter);
 
 const PORT = process.env.PORT || 3000;
