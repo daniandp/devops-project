@@ -1,0 +1,27 @@
+{
+  "name": "devops-project",
+  "version": "1.0.0",
+  "description": "This is Term project for DevOps Term03 - CPRO by Lambton College.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daniandp/devops-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/daniandp/devops-project/issues"
+  },
+  "homepage": "https://github.com/daniandp/devops-project#readme",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "mongoose": "^8.20.0",
+    "pug": "^3.0.3"
+  }
+}

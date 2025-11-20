@@ -1,0 +1,16 @@
+doctype html
+html
+    head 
+        title= title
+        link(rel="stylesheet", href="/css/style.css")
+
+    body 
+        header
+            h1 Appliance Store 
+            nav
+                a(href="/login") Login |
+                a(href="/register") Register | 
+                a(href="/dashboard") Dashboard |
+                a(href="/profile") Profile
+            main
+                block content
