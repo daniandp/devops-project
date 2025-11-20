@@ -27,7 +27,6 @@ router.get("/dashboard", (req, res) => {
 
 // profile route
 router.get("/profile", (req, res) => {
-  const user = { username: "Alice", email: "alice@test.com" };
   res.render("profile", {
     title: "Application Store - User profile",
     user,
