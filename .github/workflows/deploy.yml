@@ -51,27 +51,32 @@ jobs:
           ssh -o StrictHostKeyChecking=no ${{ secrets.AZURE_VM_USER }}@${{ secrets.AZURE_VM_HOST }} << 'EOF'
           set -euo pipefail
 
+          # Create directory with proper permissions
+          sudo mkdir -p /var/www
+          sudo chown -R $USER:$USER /var/www
           
-          if [ ! -d /var/www/devops-project ]; then
-            sudo mkdir -p /var/www/devops-project
-            sudo chown -R $USER:$USER /var/www/devops-project
-          fi
+          cd /var/www
 
-          cd /var/www/devops-project
-
-          # If repository is not present, clone it. Otherwise update it.
-          if [ ! -d .git ]; then
-            git clone https://github.com/daniandp/devops-project.git /var/www/devops-project
+          # Clone or update repository
+          if [ ! -d "devops-project/.git" ]; then
+            echo "Cloning repository for the first time..."
+            git clone https://github.com/daniandp/devops-project.git
           else
-            git fetch --all
+            echo "Updating existing repository..."
+            cd devops-project
+            git fetch origin
             git reset --hard origin/main
           fi
 
-          # Install dependencies and restart app with pm2
+          cd devops-project
+
+          # Install dependencies
           npm install --production
 
-          # adjust start path if your app is at src/app.js or app.js
-          pm2 restart devops-project || pm2 start app.js --name devops-project
+          # Start/Restart with PM2
+          pm2 delete devops-project 2>/dev/null || true
+          pm2 start app.js --name devops-project
+          pm2 save
 
           EOF
 
