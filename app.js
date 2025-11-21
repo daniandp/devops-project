@@ -7,6 +7,9 @@ const path = require("path");
 
 const session = require("express-session");
 
+// Prometheus client for metrics
+const client = require("prom-client");
+
 const app = express();
 
 // >>>>>>Prometheus Metrics Setup<<<<<<<
