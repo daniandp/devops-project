@@ -124,3 +124,47 @@ p.register-link a {
 p.register-link a:hover {
   text-decoration: underline;
 }
+
+/* Dashboard Container */
+.dashboard-container {
+  background: #ffffff;
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+/* Appliance List */
+.appliance-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.appliance-item {
+  background: #fafafa;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.appliance-item:hover {
+  background: #f0f0f0;
+}
+
+.item-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.item-price {
+  font-size: 15px;
+  font-weight: 500;
+  color: #4b7bec;
+}
+
