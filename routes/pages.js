@@ -54,6 +54,13 @@ router.get("/dashboard", (req, res) => {
   });
 });
 
+// logout route
+router.get("/logout", (req, res) => {
+  req.session.destroy(() => {
+    res.redirect("/login");
+  });
+});
+
 // profile route
 router.get("/profile", (req, res) => {
   res.render("profile", {
