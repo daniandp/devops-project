@@ -48,12 +48,31 @@ jobs:
       # AZURE_VM_USER and AZURE_VM_HOST replace with actual value
       - name: Deploy to Azure VM
         run: |
-          ssh ${{ secrets.AZURE_VM_USER }}@${{ secrets.AZURE_VM_HOST }} << 'EOF'
-          set -e
+          ssh -o StrictHostKeyChecking=no ${{ secrets.AZURE_VM_USER }}@${{ secrets.AZURE_VM_HOST }} << 'EOF'
+          set -euo pipefail
+
+          
+          if [ ! -d /var/www/devops-project ]; then
+            sudo mkdir -p /var/www/devops-project
+            sudo chown -R $USER:$USER /var/www/devops-project
+          fi
+
           cd /var/www/devops-project
-          git pull origin main
+
+          # If repository is not present, clone it. Otherwise update it.
+          if [ ! -d .git ]; then
+            git clone https://github.com/daniandp/devops-project.git /var/www/devops-project
+          else
+            git fetch --all
+            git reset --hard origin/main
+          fi
+
+          # Install dependencies and restart app with pm2
           npm install --production
-          pm2 restart devops-project || pm2 start src/app.js --name devops-project
+
+          # adjust start path if your app is at src/app.js or app.js
+          pm2 restart devops-project || pm2 start app.js --name devops-project
+
           EOF
 
   close_pull_request_job:
