@@ -8,9 +8,12 @@ html
         header
             h1 Appliance Store 
             nav
-                a(href="/login") Login |
-                a(href="/register") Register | 
-                a(href="/dashboard") Dashboard |
-                a(href="/profile") Profile
+                if currentUser
+                    a(href="/dashboard") Dashboard |
+                    a(href="/profile") Profile |
+                    a(href="/logout") Logout
+                else
+                    a(href="/login") Login |
+                    a(href="/register") Register 
         main
             block content

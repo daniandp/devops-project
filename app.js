@@ -43,6 +43,11 @@ app.use(
   })
 );
 
+app.use((req, res, next) => {
+  res.locals.currentUser = req.session.user || null;
+  next();
+});
+
 // page routes
 const pagesRouter = require("./routes/pages");
 app.use("/", pagesRouter);

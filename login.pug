@@ -1,0 +1,26 @@
+// Trial and error login pug page
+
+doctype html
+html
+  head
+    title Login
+    link(rel="stylesheet" href="/styles.css")
+
+  body
+    .login-container
+      h2 Login
+
+      form(action="/login" method="POST")
+        .input-group
+          label(for="email") Email
+          input(type="email" id="email" name="email" required)
+
+        .input-group
+          label(for="password") Password
+          input(type="password" id="password" name="password" required)
+
+        button(type="submit") Login
+
+      p.register-link
+        | Don't have an account?
+        a(href="/register") Create one
