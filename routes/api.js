@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
+const { loginWithEmailPassword } = require("../services/authservice");
 
 // Register API - POST /api/register
 router.post("/register", async (req, res) => {
@@ -52,26 +53,15 @@ router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // check required data
-    if (!email || !password) {
-      return res.status(400).json({ error: "Email and password are required" });
-    }
+    const safeUser = await loginWithEmailPassword(email, password);
 
-    // find user
-    const user = await User.findOne({ email });
-    if (!user || user.password !== password) {
-      return res.status(401).json({ error: "Invalid email or password" });
-    }
+    // set session
+    req.session.user = safeUser;
 
     // return success
     return res.json({
       message: "Login successful",
-      user: {
-        email: user.email,
-        firstName: user.firstName,
-        middleName: user.middleName,
-        lastName: user.lastName,
-      },
+      user: safeUser,
     });
   } catch (error) {
     console.log("error :: Error in Login API ==>", error);
