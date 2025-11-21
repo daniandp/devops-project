@@ -1,0 +1,66 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - feature/**
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - main
+      - feature/**
+
+jobs:
+  build_and_deploy:
+    if: github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && github.event.action != 'closed')
+    runs-on: ubuntu-latest
+    name: Build and Deploy to Azure VM
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run placeholder tests
+        run: echo "No tests — skipping."
+
+      # AZURE_VM_SSH_KEY - replace it with actual key added in GitHub
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.AZURE_VM_SSH_KEY }}
+
+      # AZURE_VM_HOST replace it with actual value
+      - name: Add VM to known_hosts
+        run: |
+          mkdir -p ~/.ssh 
+          ssh-keyscan -H ${{ secrets.AZURE_VM_HOST }} >> ~/.ssh/known_hosts
+
+      # AZURE_VM_USER and AZURE_VM_HOST replace with actual value
+      - name: Deploy to Azure VM
+        run: |
+          ssh ${{ secrets.AZURE_VM_USER }}@${{ secrets.AZURE_VM_HOST }} << 'EOF'
+          set -e
+          cd /var/www/devops-project
+          git pull origin main
+          npm install --production
+          pm2 restart devops-project || pm2 start src/app.js --name devops-project
+          EOF
+
+  close_pull_request_job:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    name: Close Pull Request Job
+
+    steps:
+      - name: No deployment required
+        run: echo "Pull request closed — no deployment."
