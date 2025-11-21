@@ -5,8 +5,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
 
-// Prometheus client for metrics
-const client = require("prom-client");
+const session = require("express-session");
 
 const app = express();
 
@@ -85,6 +84,21 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // for handling form submissions
 app.use(express.urlencoded({ extended: true }));
+
+// session setup
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "mySecretKey",
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false },
+  })
+);
+
+app.use((req, res, next) => {
+  res.locals.currentUser = req.session.user || null;
+  next();
+});
 
 // page routes
 const pagesRouter = require("./routes/pages");
