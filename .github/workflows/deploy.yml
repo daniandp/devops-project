@@ -49,25 +49,16 @@ jobs:
       - name: Deploy to Azure VM
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.AZURE_VM_USER }}@${{ secrets.AZURE_VM_HOST }} << 'EOF'
-          set -euo pipefail
+          set -e
 
-          # Create directory with proper permissions
+          # Always start from a clean state in /var/www
+          cd /var/www
           sudo mkdir -p /var/www
           sudo chown -R $USER:$USER /var/www
-          
-          cd /var/www
 
-          # Clone or update repository
-          if [ ! -d "devops-project/.git" ]; then
-            echo "Cloning repository for the first time..."
-            git clone https://github.com/daniandp/devops-project.git
-          else
-            echo "Updating existing repository..."
-            cd devops-project
-            git fetch origin
-            git reset --hard origin/main
-          fi
-
+          # Remove and re-clone to avoid git issues
+          rm -rf devops-project
+          git clone https://github.com/daniandp/devops-project.git
           cd devops-project
 
           # Install dependencies
@@ -78,6 +69,7 @@ jobs:
           pm2 start app.js --name devops-project
           pm2 save
 
+          echo "Deployment completed successfully!"
           EOF
 
   close_pull_request_job:
