@@ -36,10 +36,12 @@ jobs:
       - name: Write SSH key
         run: |
           mkdir -p ~/.ssh
-          echo "$AZURE_VM_SSH_KEY" > ~/.ssh/id_rsa
+          echo "$SSH_KEY_B64" | base64 -d > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+          ssh-keygen -lf ~/.ssh/id_rsa
+          file ~/.ssh/id_rsa
         env:
-          AZURE_VM_SSH_KEY: ${{ secrets.AZURE_VM_SSH_KEY }}
+          SSH_KEY_B64: ${{ secrets.AZURE_VM_SSH_KEY }}
 
       - name: Add VM to known_hosts
         run: |
@@ -48,7 +50,7 @@ jobs:
 
       - name: Deploy to Azure VM
         run: |
-          ssh ${{ secrets.AZURE_VM_USER }}@${{ secrets.AZURE_VM_HOST }} << 'EOF'
+          ssh -i ~/.ssh/id_rsa ${{ secrets.AZURE_VM_USER }}@${{ secrets.AZURE_VM_HOST }} << 'EOF'
           set -e
           cd /var/www/devops-project
           git pull origin main
