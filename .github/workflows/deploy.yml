@@ -33,27 +33,19 @@ jobs:
       - name: Run placeholder tests
         run: echo "No tests — skipping."
 
-      - name: Validate SSH key from secret
+      - name: Write SSH key
         run: |
-          echo "$AZURE_VM_SSH_KEY" > key.pem
-          ssh-keygen -l -f key.pem
+          mkdir -p ~/.ssh
+          echo "$AZURE_VM_SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
         env:
           AZURE_VM_SSH_KEY: ${{ secrets.AZURE_VM_SSH_KEY }}
 
-      # AZURE_VM_SSH_KEY - replace it with actual key added in GitHub
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.AZURE_VM_SSH_KEY }}
-          log-public-key: true
-
-      # AZURE_VM_HOST replace it with actual value
       - name: Add VM to known_hosts
         run: |
           mkdir -p ~/.ssh 
           ssh-keyscan -H ${{ secrets.AZURE_VM_HOST }} >> ~/.ssh/known_hosts
 
-      # AZURE_VM_USER and AZURE_VM_HOST replace with actual value
       - name: Deploy to Azure VM
         run: |
           ssh ${{ secrets.AZURE_VM_USER }}@${{ secrets.AZURE_VM_HOST }} << 'EOF'
