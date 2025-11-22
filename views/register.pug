@@ -1,4 +1,32 @@
 extends layout
 
 block content
-    h2 Register 
+    .page-container
+        h2 Register 
+
+        if error
+            p #{error}
+
+        if message
+            p #{message}
+
+        form(method="POST", action="/register")
+            label(for="email") Email
+            input(type="email", name="email", id="email", required)
+
+            label(for="firstName") First Name
+            input(type="text", name="firstName", id="firstName", required)
+
+            label(for="middleName") Middle Name (optional)
+            input(type="text", name="middleName", id="middleName")
+
+            label(for="lastName") Last Name
+            input(type="text", name="lastName", id="lastName", required)
+
+            label(for="password") Password
+            input(type="password", name="password", id="password", required)
+
+            button(type="submit") Create Account
+
+        p Already have an account?
+            a(href="/login") Login
