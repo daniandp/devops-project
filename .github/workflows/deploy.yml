@@ -38,6 +38,7 @@ jobs:
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.AZURE_VM_SSH_KEY }}
+          log-public-key: true
 
       # AZURE_VM_HOST replace it with actual value
       - name: Add VM to known_hosts
@@ -48,28 +49,12 @@ jobs:
       # AZURE_VM_USER and AZURE_VM_HOST replace with actual value
       - name: Deploy to Azure VM
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.AZURE_VM_USER }}@${{ secrets.AZURE_VM_HOST }} << 'EOF'
+          ssh ${{ secrets.AZURE_VM_USER }}@${{ secrets.AZURE_VM_HOST }} << 'EOF'
           set -e
-
-          # Always start from a clean state in /var/www
-          cd /var/www
-          sudo mkdir -p /var/www
-          sudo chown -R $USER:$USER /var/www
-
-          # Remove and re-clone to avoid git issues
-          rm -rf devops-project
-          git clone https://github.com/daniandp/devops-project.git
-          cd devops-project
-
-          # Install dependencies
+          cd /var/www/devops-project
+          git pull origin main
           npm install --production
-
-          # Start/Restart with PM2
-          pm2 delete devops-project 2>/dev/null || true
-          pm2 start app.js --name devops-project
-          pm2 save
-
-          echo "Deployment completed successfully!"
+          pm2 restart devops-project || pm2 start src/app.js --name devops-project
           EOF
 
   close_pull_request_job:
