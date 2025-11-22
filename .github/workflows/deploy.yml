@@ -39,6 +39,7 @@ jobs:
           ssh-keygen -l -f key.pem
         env:
           AZURE_VM_SSH_KEY: ${{ secrets.AZURE_VM_SSH_KEY }}
+
       # AZURE_VM_SSH_KEY - replace it with actual key added in GitHub
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.9.0
