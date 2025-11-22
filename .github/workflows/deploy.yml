@@ -22,13 +22,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Check npm installation
+        run: npm --version
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
+      - name: "Diagnostic: List installed binaries"
+        run: which node && which npm && node --version && npm --version
+
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run placeholder tests
         run: echo "No tests — skipping."
@@ -51,11 +57,11 @@ jobs:
       - name: Deploy to Azure VM
         run: |
           ssh -i ~/.ssh/id_rsa ${{ secrets.AZURE_VM_USER }}@${{ secrets.AZURE_VM_HOST }} << 'EOF'
-          set -e
-          cd /var/www/devops-project
-          git pull origin main
-          npm install --production
-          pm2 restart devops-project || pm2 start src/app.js --name devops-project
+            set -e
+            cd /var/www/devops-project
+            git pull origin main
+            npm ci --production
+            pm2 restart devops-project || pm2 start npm --name devops-project -- start
           EOF
 
   close_pull_request_job:
