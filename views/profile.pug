@@ -5,22 +5,24 @@ block content
         p #{error}
     if user
         h2 User Profile 
-        p
-            strong First Name:
-            |  #{user.firstName}
-        if user.middleName
-            p
-                strong Middle Name:
-                |  #{user.middleName}
-        p
-            strong Last Name:
-            |  #{user.lastName}
-        p
-            strong Email:
-            |  #{user.email}
-        if user.createdAt
-            p
-                strong Member Since:
-                |  #{user.createdAt}
+        .page-container
+            .dashboard-container  
+                p
+                    strong First Name:
+                    |  #{user.firstName}
+                if user.middleName
+                    p
+                        strong Middle Name:
+                        |  #{user.middleName}
+                p
+                    strong Last Name:
+                    |  #{user.lastName}
+                p
+                    strong Email:
+                    |  #{user.email}
+                if user.createdAt
+                    p
+                        strong Member Since:
+                        |  #{user.createdAt}
     else
         p No profile data available.

@@ -1,13 +1,14 @@
 extends layout
 
 block content
+    
+    if user
+        h2 Welcome #{user.firstName}!
+    else
+        h2 Welcome!
+        
     .page-container
-        .dashboard-container
-            if user
-                h2 Welcome #{user.firstName}!
-            else
-                h2 Welcome!
-
+        .dashboard-container    
             h3 Appliance Inventory
 
             if appliances && appliances.length

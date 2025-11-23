@@ -31,6 +31,7 @@ h2 {
   max-width: 500px;
   margin: 0 auto;
 }
+
 /* Updated css page */
 
 /* General Page Layout */
@@ -49,11 +50,11 @@ body {
 /* Login Container */
 .login-container {
   background: #ffffff;
-  width: 350px;
   padding: 30px 40px;
   border-radius: 10px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   text-align: center;
+  margin: 0 auto;
 }
 
 /* Title */
@@ -78,7 +79,7 @@ body {
 }
 
 .input-group input {
-  width: 100%;
+  width: 93%;
   padding: 10px 12px;
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -167,4 +168,3 @@ p.register-link a:hover {
   font-weight: 500;
   color: #4b7bec;
 }
-
