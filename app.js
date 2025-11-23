@@ -59,7 +59,6 @@ mongoose
     console.error("MongoDB connection err:", err.message);
   });
 
-
 app.get("/", async (req, res) => {
   // Increment request counter
   REQUEST_COUNT.inc();
@@ -84,9 +83,6 @@ app.get("/", async (req, res) => {
 
 // static files
 app.use(express.static(path.join(__dirname, "public")));
-
-// for handling form submissions
-app.use(express.urlencoded({ extended: true }));
 
 // session setup
 app.use(
@@ -122,8 +118,7 @@ app.get("/metrics", async (req, res) => {
 });
 
 // Start Server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log("Server is running at http://localhost:" + PORT);
 });
-
