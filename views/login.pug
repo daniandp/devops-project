@@ -2,4 +2,11 @@ extends layout
 
 block content
     h2 Login 
-    
+    form(method="POST", action="/login")
+        label(for="email") Email
+        input(type="email", name="email", required)
+
+        label(for="password") Password
+        input(type="password", name="password", required)
+
+        button(type="submit") Login
