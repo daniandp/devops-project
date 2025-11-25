@@ -41,11 +41,11 @@ jobs:
 
       - name: Write SSH key
         run: |
-          mkdir -p ~/.ssh
-          echo "$SSH_KEY_B64" | base64 -d > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keygen -lf ~/.ssh/id_rsa
-          file ~/.ssh/id_rsa
+          mkdir -p $HOME/.ssh
+          echo "$SSH_KEY_B64" | base64 -d > $HOME/.ssh/id_rsa
+          chmod 600 $HOME/.ssh/id_rsa
+          ssh-keygen -lf $HOME/.ssh/id_rsa
+          file $HOME/.ssh/id_rsa
         env:
           SSH_KEY_B64: ${{ secrets.AZURE_VM_SSH_KEY }}
 
