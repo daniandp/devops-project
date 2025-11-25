@@ -5,7 +5,7 @@ const {
   loginWithEmailPassword,
   registerUser,
   getUserProfileByEmail,
-} = require("../services/authservice");
+} = require("../services/auth_service");
 
 // Register API - POST /api/register
 router.post("/register", async (req, res) => {

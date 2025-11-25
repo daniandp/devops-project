@@ -3,7 +3,7 @@ const {
   loginWithEmailPassword,
   registerUser,
   getUserProfileByEmail,
-} = require("../services/authservice");
+} = require("../services/auth_service");
 const router = express.Router();
 
 // redirect to login by default
